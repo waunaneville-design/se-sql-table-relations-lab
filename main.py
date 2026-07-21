@@ -106,3 +106,11 @@ LEFT JOIN employees e ON o.officeCode = e.officeCode
 LEFT JOIN customers c ON e.employeeNumber = c.salesRepEmployeeNumber
 GROUP BY o.officeCode, o.city
 """, conn)
+
+# STEP 10
+# Return employees who sold products ordered by < 20 customers
+# Using subquery to find products with < 20 purchasers
+df_under_20 = pd.read_sql("""
+SELECT DISTINCT e.employeeNumber, e.firstName, e.lastName, 
+       o.city, o.officeCode
+
