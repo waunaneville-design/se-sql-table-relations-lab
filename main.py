@@ -95,3 +95,14 @@ JOIN orders o ON od.orderNumber = o.orderNumber
 GROUP BY p.productCode
 ORDER BY numpurchasers DESC
 """, conn)
+
+# STEP 9
+# Return count of customers per office with office code and city
+df_customers = pd.read_sql("""
+SELECT COUNT(DISTINCT c.customerNumber) as n_customers, 
+       o.officeCode, o.city
+FROM offices o
+LEFT JOIN employees e ON o.officeCode = e.officeCode
+LEFT JOIN customers c ON e.employeeNumber = c.salesRepEmployeeNumber
+GROUP BY o.officeCode, o.city
+""", conn)
