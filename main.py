@@ -28,3 +28,12 @@ GROUP BY o.officeCode
 HAVING COUNT(e.employeeNumber) = 0
 """, conn)
 
+# STEP 3
+# Return employees' first and last names with office city and state
+# Include all employees and order by first name, then last name
+df_employee = pd.read_sql("""
+SELECT e.firstName, e.lastName, o.city, o.state
+FROM employees e
+LEFT JOIN offices o ON e.officeCode = o.officeCode
+ORDER BY e.firstName, e.lastName
+""", conn)
