@@ -48,3 +48,14 @@ LEFT JOIN orders o ON c.customerNumber = o.customerNumber
 WHERE o.orderNumber IS NULL
 ORDER BY c.contactLastName
 """, conn)
+
+# STEP 5
+# Return all customer contacts with payment amounts and dates
+# Sorted descending by payment amount
+df_payment = pd.read_sql("""
+SELECT c.contactFirstName, c.contactLastName, p.amount, p.paymentDate
+FROM customers c
+JOIN payments p ON c.customerNumber = p.customerNumber
+ORDER BY CAST(p.amount AS REAL) DESC
+""", conn)
+
