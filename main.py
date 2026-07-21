@@ -17,3 +17,14 @@ FROM employees e
 JOIN offices o ON e.officeCode = o.officeCode
 WHERE o.city = 'Boston'
 """, conn)
+
+# STEP 2
+# Are there any offices that have zero employees?
+df_zero_emp = pd.read_sql("""
+SELECT o.officeCode, o.city
+FROM offices o
+LEFT JOIN employees e ON o.officeCode = e.officeCode
+GROUP BY o.officeCode
+HAVING COUNT(e.employeeNumber) = 0
+""", conn)
+
