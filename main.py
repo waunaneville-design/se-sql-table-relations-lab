@@ -12,7 +12,7 @@ pd.read_sql("""SELECT * FROM sqlite_master""", conn)
 # STEP 1
 # Return the first and last names and job titles for all employees in Boston
 df_boston = pd.read_sql("""
-SELECT e.firstName, e.lastName
+SELECT e.firstName, e.lastName, e.jobTitle
 FROM employees e
 JOIN offices o ON e.officeCode = o.officeCode
 WHERE o.city = 'Boston'
@@ -36,4 +36,15 @@ SELECT e.firstName, e.lastName, o.city, o.state
 FROM employees e
 LEFT JOIN offices o ON e.officeCode = o.officeCode
 ORDER BY e.firstName, e.lastName
+""", conn)
+
+# STEP 4
+# Return all customer contact info for customers with no orders
+# Include sales rep employee number, sorted by contact last name
+df_contacts = pd.read_sql("""
+SELECT c.contactFirstName, c.contactLastName, c.phone, c.salesRepEmployeeNumber
+FROM customers c
+LEFT JOIN orders o ON c.customerNumber = o.customerNumber
+WHERE o.orderNumber IS NULL
+ORDER BY c.contactLastName
 """, conn)
