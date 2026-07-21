@@ -73,3 +73,15 @@ ORDER BY numCustomers DESC
 LIMIT 4
 """, conn)
 
+# STEP 7
+# Return product names with count of orders and total units sold
+df_product_sold = pd.read_sql("""
+SELECT p.productName, COUNT(DISTINCT o.orderNumber) as numorders, 
+       SUM(od.quantityOrdered) as totalunits
+FROM products p
+JOIN orderdetails od ON p.productCode = od.productCode
+JOIN orders o ON od.orderNumber = o.orderNumber
+GROUP BY p.productCode
+ORDER BY totalunits DESC
+""", conn)
+
